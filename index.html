@@ -1,0 +1,42 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id ="swing">
+
+    </canvas>
+    <script src="https://cdn.socket.io/4.4.1/socket.io.js"></script>
+    <script>
+        const ip = "192.168.158.29";
+        const canvas = document.getElementById("swing");
+        /** 
+         * @type {CanvasRenderingContext2D}
+         * @description: canvas context
+         */
+        const ctx = canvas.getContext("2d");
+        var frame = {position: 0, rotation: 0};
+        var socket = io(`ws://${ip}:3000`, { auth: { type: "client" } });
+        socket.on("frame", function (data) {
+            frame = data;
+            loop();
+            console.log(data, data.position - Date.now() / 1000);
+        });
+
+        function loop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+
+            requestAnimationFrame(loop);
+        };
+        
+    </script>
+</body>
+
+</html>
