@@ -21,7 +21,7 @@
          */
         const ctx = canvas.getContext("2d");
         var frame = {position: 0, rotation: 0};
-        var socket = io(`ws://${ip}:3000`, { auth: { type: "client" } });
+        var socket = io(`wss://${ip}:80`, { auth: { type: "client" } });
         socket.on("frame", function (data) {
             frame = data;
             loop();
